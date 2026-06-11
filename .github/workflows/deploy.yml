@@ -39,15 +39,13 @@ jobs:
 
             # 3. Generate the .env file from GitHub Secrets
             echo "Generating .env file..."
-            cat <<EOF > .env
-            APP_PORT=8080
-            APP_ENV=production
-            POSTGRES_DSN=${{ secrets.POSTGRES_DSN }}
-            REDIS_ADDR=${{ secrets.REDIS_ADDR }}
-            BINDERBYTE_URL=${{ secrets.BINDERBYTE_URL }}
-            BINDERBYTE_API_KEY=${{ secrets.BINDERBYTE_API_KEY }}
-            FRONTEND_URL=${{ secrets.FRONTEND_URL }}
-            EOF
+            echo "APP_PORT=8080" > .env
+            echo "APP_ENV=production" >> .env
+            echo "POSTGRES_DSN=${{ secrets.POSTGRES_DSN }}" >> .env
+            echo "REDIS_ADDR=${{ secrets.REDIS_ADDR }}" >> .env
+            echo "BINDERBYTE_URL=${{ secrets.BINDERBYTE_URL }}" >> .env
+            echo "BINDERBYTE_API_KEY=${{ secrets.BINDERBYTE_API_KEY }}" >> .env
+            echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
 
             # 4. Rebuild and restart the Docker containers
             echo "Starting Docker Compose..."
