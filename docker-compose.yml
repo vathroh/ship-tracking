@@ -1,4 +1,7 @@
 services:
+  # ----------------------------------------
+  # 1. Backend (Go API)
+  # ----------------------------------------
   backend:
     build:
       context: ./backend
@@ -15,9 +18,10 @@ services:
       - BINDERBYTE_URL=${BINDERBYTE_URL}
       - BINDERBYTE_API_KEY=${BINDERBYTE_API_KEY}
       - FRONTEND_URL=${FRONTEND_URL}
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
 
+  # ----------------------------------------
+  # 2. Frontend (Vue + Nginx)
+  # ----------------------------------------
   frontend:
     build:
       context: ./frontend
@@ -28,3 +32,9 @@ services:
       - "80:80"
     depends_on:
       - backend
+
+# Hubungkan ke network eksternal
+networks:
+  default:
+    name: postgres_net
+    external: true
