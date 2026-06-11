@@ -9,7 +9,7 @@ echo "======================================"
 
 # 1. Pull latest code from main branch
 echo "[1/4] Pulling latest code..."
-git pull origin main
+git pull origin master
 
 # 2. Rebuild and restart Docker containers in detached mode
 echo "[2/4] Rebuilding and restarting Docker containers..."
