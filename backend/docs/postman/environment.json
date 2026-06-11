@@ -1,0 +1,21 @@
+{
+  "id": "e0b5a32e-c1e1-4c6e-827d-5c6c21e64627",
+  "name": "Cek Ongkir Resi - Local Env",
+  "values": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "enabled": true
+    },
+    {
+      "key": "courier",
+      "value": "jnt",
+      "enabled": true
+    },
+    {
+      "key": "awb",
+      "value": "JP123456789",
+      "enabled": true
+    }
+  ]
+}

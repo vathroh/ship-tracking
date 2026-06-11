@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: shiptrack_backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - APP_PORT=8080
+      - APP_ENV=production
+      - POSTGRES_DSN=${POSTGRES_DSN}
+      - REDIS_ADDR=${REDIS_ADDR}
+      - BINDERBYTE_URL=${BINDERBYTE_URL}
+      - BINDERBYTE_API_KEY=${BINDERBYTE_API_KEY}
+      - FRONTEND_URL=${FRONTEND_URL}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: shiptrack_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend

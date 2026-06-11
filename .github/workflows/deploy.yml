@@ -1,0 +1,59 @@
+name: VPS Automated Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to VPS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          script: |
+            # 1. Define the deployment directory
+            # Make sure this matches where you cloned the repo on your VPS
+            TARGET_DIR="/opt/ship-tracking"
+
+            # If the directory doesn't exist, clone it (requires public repo or configured git credentials)
+            if [ ! -d "$TARGET_DIR" ]; then
+              echo "Directory $TARGET_DIR not found. Cloning..."
+              git clone https://github.com/${{ github.repository }}.git $TARGET_DIR
+            fi
+
+            cd $TARGET_DIR
+
+            # 2. Pull the latest code
+            echo "Pulling latest code..."
+            git pull origin master
+
+            # 3. Generate the .env file from GitHub Secrets
+            echo "Generating .env file..."
+            cat <<EOF > .env
+            APP_PORT=8080
+            APP_ENV=production
+            POSTGRES_DSN=${{ secrets.POSTGRES_DSN }}
+            REDIS_ADDR=${{ secrets.REDIS_ADDR }}
+            BINDERBYTE_URL=${{ secrets.BINDERBYTE_URL }}
+            BINDERBYTE_API_KEY=${{ secrets.BINDERBYTE_API_KEY }}
+            FRONTEND_URL=${{ secrets.FRONTEND_URL }}
+            EOF
+
+            # 4. Rebuild and restart the Docker containers
+            echo "Starting Docker Compose..."
+            docker compose up -d --build
+
+            # 5. Clean up old images
+            echo "Cleaning up..."
+            docker image prune -f
+            echo "Deployment Successful!"

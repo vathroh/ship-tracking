@@ -1,0 +1,88 @@
+{
+  "info": {
+    "name": "Shipment Tracking API",
+    "description": "API Collection for Shipment Tracking backend services.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/health",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Track Shipment",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/tracking?courier={{courier}}&tracking_number={{awb}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "tracking"
+          ],
+          "query": [
+            {
+              "key": "courier",
+              "value": "{{courier}}"
+            },
+            {
+              "key": "tracking_number",
+              "value": "{{awb}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Search History",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/history?page=1&limit=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "history"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            },
+            {
+              "key": "courier",
+              "value": "",
+              "disabled": true
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
